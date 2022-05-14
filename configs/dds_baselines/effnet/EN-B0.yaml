@@ -1,0 +1,39 @@
+#Model:
+model:  efficientnet
+
+#Efficientnet构建
+EN:
+  STEM_W: 32
+  STRIDES: [1, 2, 2, 2, 1, 2, 1]
+  DEPTHS: [1, 2, 2, 3, 3, 4, 1]
+  WIDTHS: [16, 24, 40, 80, 112, 192, 320]
+  EXP_RATIOS: [1, 6, 6, 6, 6, 6, 6]
+  KERNELS: [3, 3, 5, 3, 5, 5, 3]
+  HEAD_W: 1280
+  DROPOUT_RATIO: 0.2 #dropout_rate ,B0-B7 从0.2~0.5
+  DC_RATIO: 0.2      #drop_connect_rate 论文给0.3 ,官方代码是0.2
+
+#TRAIN
+#Dataset
+data_dir: /usr/Downloads/imagenet/
+batch_size: 256
+sched: step
+epoch: 200
+decay_epoch: 2.4
+decay_rate: 0.97
+opt: rmsproptf
+opt_eps: 0.001
+workers: 8
+warmup_lr: 1e-6
+weight_decay: 1e-5
+drop: 0.2
+drop_connect: 0.2
+model-ema-decay: 0.9999
+aa: rand-m9-mstd0.5
+remode: pixel
+reprob: 0.2
+amp: True
+lr: 0.048
+
+
+resume:  None         #PATH Resume full model and optimizer state from checkpoint (default: none)

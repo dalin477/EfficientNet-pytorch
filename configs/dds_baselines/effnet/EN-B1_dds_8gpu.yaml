@@ -1,0 +1,37 @@
+MODEL:
+  TYPE: effnet
+  NUM_CLASSES: 1000
+  ACTIVATION_FUN: silu
+EN:
+  STEM_W: 32
+  STRIDES: [1, 2, 2, 2, 1, 2, 1]
+  DEPTHS: [2, 3, 3, 4, 4, 5, 2]
+  WIDTHS: [16, 24, 40, 80, 112, 192, 320]
+  EXP_RATIOS: [1, 6, 6, 6, 6, 6, 6]
+  KERNELS: [3, 3, 5, 3, 5, 5, 3]
+  HEAD_W: 1280
+  DROPOUT_RATIO: 0.2 #dropout_rate ,B0-B7 从0.2~0.5
+  DC_RATIO: 0.2      #drop_connect_rate 论文给0.3 ,官方代码是0.2
+OPTIM:
+  LR_POLICY: cos
+  BASE_LR: 0.4
+  MAX_EPOCH: 200
+  MOMENTUM: 0.9
+  WEIGHT_DECAY: 1e-5
+TRAIN:
+  DATASET: imagenet
+  IM_SIZE: (3,224,224)
+  BATCH_SIZE: 256
+  AUGMENT: AutoAugment #论文也用了固定的autoaugment
+
+  interpolation: bicubic
+  mean: (0.485,0.456,0.406)
+  std: (0.229,0.224,0.225)
+  crop_pct: 1.0
+TEST:
+  DATASET: imagenet
+  IM_SIZE: 274
+  BATCH_SIZE: 200
+  WEIGHTS: model.pyth
+NUM_GPUS: 2
+OUT_DIR: /home/lcm/project/pycls/checkpoints/ENB1
